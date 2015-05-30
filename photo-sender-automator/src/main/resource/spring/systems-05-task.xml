@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ File Name       : systems-05-task.xml
+  ~ Class Name      : /Users/adelwin/GitRepositories/PhotoSenderAutomator/photo-sender-automator/src/main/resource/spring/systems-05-task.xml
+  ~ Module Name     : photo-sender-automator
+  ~ Project Name    : PhotoSenderAutomator
+  ~ Author          : adelwin
+  ~ Created Date    : 2015-05-23 15:16:35
+  ~
+  ~ Copyright (c) 2015 Solveware Independent. All Rights Reserved.
+  ~ This software contains confidential and proprietary information of Solveware Independent.
+  ~
+  ~ |=================|==================|=========|======================================
+  ~ | Author          | Date             | Version | Description
+  ~ |=================|==================|=========|======================================
+  ~ |                 |                  |         |
+  ~ |                 |                  |         |
+  ~ |=================|==================|=========|======================================
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/task
+            http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <task:scheduler id="mainScheduler" pool-size="10"/>
+
+    <bean id="watchDogTask" class="com.pru.pacs.base.task.impl.WatchDogTask" scope="prototype"/>
+
+    <bean id="shutdownListenerTask" class="com.pru.pacs.base.task.impl.ShutdownListenerTask" scope="prototype">
+        <property name="triggerFileLocation" value="./stop.flag"/>
+    </bean>
+
+    <task:scheduled-tasks scheduler="mainScheduler">
+        <task:scheduled ref="shutdownListenerTask" method="doTask" fixed-rate="60000"/>  <!-- every minute -->
+        <task:scheduled ref="watchDogTask" method="doTask" fixed-rate="60000"/>          <!-- every minute -->
+    </task:scheduled-tasks>
+</beans>

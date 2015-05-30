@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ File Name       : systems-04-mail.xml
+  ~ Class Name      : /Users/adelwin/GitRepositories/PhotoSenderAutomator/photo-sender-automator/src/main/resource/spring/systems-04-mail.xml
+  ~ Module Name     : photo-sender-automator
+  ~ Project Name    : PhotoSenderAutomator
+  ~ Author          : adelwin
+  ~ Created Date    : 2015-05-23 15:16:35
+  ~
+  ~ Copyright (c) 2015 Solveware Independent. All Rights Reserved.
+  ~ This software contains confidential and proprietary information of Solveware Independent.
+  ~
+  ~ |=================|==================|=========|======================================
+  ~ | Author          | Date             | Version | Description
+  ~ |=================|==================|=========|======================================
+  ~ |                 |                  |         |
+  ~ |                 |                  |         |
+  ~ |=================|==================|=========|======================================
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <util:properties id="mailConfiguration" location="classpath:mail/mail.properties"/>
+
+    <bean id="googleSmtpAuthenticator" class="com.pru.pacs.base.mail.authenticator.SMTPAuthenticator">
+        <constructor-arg name="_userName" type="java.lang.String" value="adelwin@gmail.com"/>
+        <constructor-arg name="_password" type="java.lang.String" value="${mail.password}"/>
+    </bean>
+
+    <bean id="mailSession" class="com.pru.pacs.base.mail.session.MailSession" scope="prototype">
+        <constructor-arg name="_identifier" type="java.lang.String" value="defaultMailSession"/>
+        <constructor-arg name="_mailConfigurationProperties" ref="mailConfiguration"/>
+        <constructor-arg name="authenticator" ref="googleSmtpAuthenticator"/>
+    </bean>
+
+    <bean id="mailSessionSendAdvice" class="com.pru.pacs.base.mail.advice.EnvironmentValueInterceptor">
+        <property name="environment" value="PROD"/>
+    </bean>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="mailSessionSendExecution"
+                      expression="execution(* com.pru.pacs.base.mail.session.MailSession.send(..))"/>
+        <aop:aspect id="mailSessionSendAspect" ref="mailSessionSendAdvice">
+            <aop:around pointcut-ref="mailSessionSendExecution" method="evaluate"/>
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="mailUtil" class="com.pru.pacs.base.mail.util.MailUtil" scope="prototype">
+        <property name="enabled" value="true"/>
+        <property name="mailSession" ref="mailSession"/>
+        <property name="sender" value="adelwin@handoyo.com.sg"/>
+        <property name="to">
+            <array value-type="java.lang.String">
+                <value>ender.handoyo@gmail.com</value>
+            </array>
+        </property>
+        <property name="subject" value="Report : Photo Sender Automator"/>
+    </bean>
+</beans>

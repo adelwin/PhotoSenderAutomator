@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ File Name       : log4j.xml
+  ~ Class Name      : /Users/adelwin/GitRepositories/PhotoSenderAutomator/photo-sender-automator/src/main/resource/log4j.xml
+  ~ Module Name     : photo-sender-automator
+  ~ Project Name    : PhotoSenderAutomator
+  ~ Author          : adelwin
+  ~ Created Date    : 2015-05-23 15:16:35
+  ~
+  ~ Copyright (c) 2015 Solveware Independent. All Rights Reserved.
+  ~ This software contains confidential and proprietary information of Solveware Independent.
+  ~
+  ~ |=================|==================|=========|======================================
+  ~ | Author          | Date             | Version | Description
+  ~ |=================|==================|=========|======================================
+  ~ |                 |                  |         |
+  ~ |                 |                  |         |
+  ~ |=================|==================|=========|======================================
+  -->
+
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd" >
+
+<log4j:configuration>
+	<appender name="FDebug" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/debug.log" />
+		<param name="MaxBackupIndex" value="100"/>
+		<param name="MaxFileSize" value="10MB" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c].[%M]([%L]) [%t] - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="CDebug" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="ALL" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c].[%M]([%L]) [%t] - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FError" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="./logs/error.log"/>
+		<param name="MaxBackupIndex" value="10"/>
+		<param name="MaxFileSize" value="100MB"/>
+		<param name="Threshold" value="ERROR"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c].[%M]([%L]) [%t] - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- suppress spring excessive logging -->
+	<logger name="org.springframework">
+		<level value="INFO" />
+	</logger>
+
+	<root>
+		<priority value="ALL"/>
+		<appender-ref ref="FDebug" />
+		<appender-ref ref="FError" />
+		<appender-ref ref="CDebug"/>
+	</root>
+</log4j:configuration>

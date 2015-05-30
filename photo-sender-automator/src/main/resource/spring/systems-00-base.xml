@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ File Name       : systems-00-base.xml
+  ~ Class Name      : /Users/adelwin/GitRepositories/PhotoSenderAutomator/photo-sender-automator/src/main/resource/spring/systems-00-base.xml
+  ~ Module Name     : photo-sender-automator
+  ~ Project Name    : PhotoSenderAutomator
+  ~ Author          : adelwin
+  ~ Created Date    : 2015-05-23 15:16:35
+  ~
+  ~ Copyright (c) 2015 Solveware Independent. All Rights Reserved.
+  ~ This software contains confidential and proprietary information of Solveware Independent.
+  ~
+  ~ |=================|==================|=========|======================================
+  ~ | Author          | Date             | Version | Description
+  ~ |=================|==================|=========|======================================
+  ~ |                 |                  |         |
+  ~ |                 |                  |         |
+  ~ |=================|==================|=========|======================================
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							">
+
+	<!-- **************************************** -->
+	<!-- Password Encryption Setup                -->
+	<!-- **************************************** -->
+	<bean id="passwordEncryptor" class="com.pru.pacs.base.encrypt.impl.TripleDesEncryptor" init-method="init">
+		<property name="keyLocation" value=".key" />
+	</bean>
+
+	<bean id="autoEncryptor" class="com.pru.pacs.base.encrypt.PropertyFieldEncryptor" init-method="encryptFields">
+		<property name="encryptedPrefix" value="$" />
+		<property name="encryptor" ref="passwordEncryptor" />
+		<property name="location" value="classpath*:creds/passwords.properties" />
+		<property name="autoEncryptProperties">
+			<list>
+                <value>mail.password</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="encryptedPasswords" class="com.pru.pacs.base.config.EncryptedPropertiesPlaceholderConfigurer" depends-on="autoEncryptor, passwordEncryptor">
+		<property name="locations">
+			<list>
+				<bean class="org.springframework.core.io.ClassPathResource">
+					<constructor-arg type="java.lang.String" value="creds/passwords.properties" />
+				</bean>
+				<bean class="org.springframework.core.io.ClassPathResource">
+					<constructor-arg type="java.lang.String" value="creds/user.properties" />
+				</bean>
+				<bean class="org.springframework.core.io.ClassPathResource">
+					<constructor-arg type="java.lang.String" value="jdbc/jdbc-db2.properties" />
+				</bean>
+                <bean class="org.springframework.core.io.ClassPathResource">
+                    <constructor-arg type="java.lang.String" value="sftp/sftp.properties"/>
+                </bean>
+			</list>
+		</property>
+		<property name="encryptedPrefix" value="$" />
+		<property name="encryptor" ref="passwordEncryptor" />
+	</bean>
+
+
+</beans>

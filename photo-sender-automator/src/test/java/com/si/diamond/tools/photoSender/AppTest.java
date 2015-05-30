@@ -1,3 +1,22 @@
+/*
+ * File Name       : AppTest.java
+ * Class Name      : com.si.diamond.tools.photoSender.AppTest
+ * Module Name     : photo-sender-automator
+ * Project Name    : PhotoSenderAutomator
+ * Author          : adelwin
+ * Created Date    : 2015-05-23 15:16:35
+ *
+ * Copyright (c) 2015 Solveware Independent. All Rights Reserved.
+ * This software contains confidential and proprietary information of Solveware Independent.
+ *
+ * |=================|==================|=========|======================================
+ * | Author          | Date             | Version | Description
+ * |=================|==================|=========|======================================
+ * |                 |                  |         |
+ * |                 |                  |         |
+ * |=================|==================|=========|======================================
+ */
+
 package com.si.diamond.tools.photoSender;
 
 import junit.framework.Test;

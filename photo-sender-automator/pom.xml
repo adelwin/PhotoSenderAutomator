@@ -1,3 +1,22 @@
+<!--
+  ~ File Name       : pom.xml
+  ~ Class Name      : /Users/adelwin/GitRepositories/PhotoSenderAutomator/photo-sender-automator/pom.xml
+  ~ Module Name     : photo-sender-automator
+  ~ Project Name    : PhotoSenderAutomator
+  ~ Author          : adelwin
+  ~ Created Date    : 2015-05-23 15:16:35
+  ~
+  ~ Copyright (c) 2015 Solveware Independent. All Rights Reserved.
+  ~ This software contains confidential and proprietary information of Solveware Independent.
+  ~
+  ~ |=================|==================|=========|======================================
+  ~ | Author          | Date             | Version | Description
+  ~ |=================|==================|=========|======================================
+  ~ |                 |                  |         |
+  ~ |                 |                  |         |
+  ~ |=================|==================|=========|======================================
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -19,10 +38,52 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.pru.pacs.base</groupId>
+            <artifactId>pacs-base</artifactId>
+            <version>2.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pru.pacs.base</groupId>
+            <artifactId>pacs-mail</artifactId>
+            <version>2.9.3</version>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.pru.pacs.dataextraction.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ File Name       : systems-02-service.xml
+  ~ Class Name      : /Users/adelwin/GitRepositories/PhotoSenderAutomator/photo-sender-automator/src/main/resource/spring/systems-02-service.xml
+  ~ Module Name     : photo-sender-automator
+  ~ Project Name    : PhotoSenderAutomator
+  ~ Author          : adelwin
+  ~ Created Date    : 2015-05-23 15:16:35
+  ~
+  ~ Copyright (c) 2015 Solveware Independent. All Rights Reserved.
+  ~ This software contains confidential and proprietary information of Solveware Independent.
+  ~
+  ~ |=================|==================|=========|======================================
+  ~ | Author          | Date             | Version | Description
+  ~ |=================|==================|=========|======================================
+  ~ |                 |                  |         |
+  ~ |                 |                  |         |
+  ~ |=================|==================|=========|======================================
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							">
+
+	<bean id="IBaseService" class="com.pru.pacs.base.service.impl.BaseServiceImpl"/>
+
+    <bean id="inputFileNameFilter" class="com.pru.pacs.base.file.filter.impl.FileNameFilterImpl" lazy-init="true">
+        <constructor-arg name="nameFilter">
+            <array>
+                <value>.JPG</value>
+                <value>.PNG</value>
+                <value>.mp4</value>
+                <value>!.TXT</value>
+            </array>
+        </constructor-arg>
+    </bean>
+
+    <bean id="IPhotoUploadService" class="com.si.diamond.tools.photoSender.service.impl.PhotoUploadServiceImpl" parent="IBaseService" lazy-init="true">
+        <property name="baseLocation" value="/Users/adelwin/Pictures/[2015-05-01] Ender/"/>
+        <property name="fileNameFilter" ref="inputFileNameFilter"/>
+        <property name="mailUtil" ref="mailUtil"/>
+        <property name="finder">
+            <bean class="com.pru.pacs.base.file.finder.BaseFinder"/>
+        </property>
+    </bean>
+</beans>

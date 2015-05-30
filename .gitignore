@@ -1,0 +1,11 @@
+# Mac OSX Files
+*/.DS_Store
+
+# IntelliJ JIdea Project Files
+*/*.iml
+*.ipr
+*.iws
+.idea/*
+
+# Maven Target Directories
+*/target/
